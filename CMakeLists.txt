@@ -9,6 +9,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
@@ -25,6 +26,7 @@ set(SOURCES src/Camera2D.cpp
             src/ResourceManager.cpp
             src/Sprite.cpp
             src/SpriteBatch.cpp
+            src/SpriteFont.cpp
             src/TextureCache.cpp
             src/Timing.cpp
             src/Toaster.cpp
@@ -32,8 +34,8 @@ set(SOURCES src/Camera2D.cpp
 )
 
 add_library(toaster SHARED ${SOURCES})
-target_include_directories(toaster PUBLIC include)
-target_link_libraries(toaster PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+target_include_directories(toaster PUBLIC include ${SDL2TTF_INCLUDE_DIRS})
+target_link_libraries(toaster PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} SDL2_ttf::SDL2_ttf)
 set_target_properties(toaster PROPERTIES LINKER_LANGUAGE CXX)
 
 # Static lib
