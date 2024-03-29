@@ -10,13 +10,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
+find_package(SDL2_mixer REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 include(CTest)
 enable_testing()
 
-set(SOURCES src/Camera2D.cpp
+set(SOURCES src/AudioEngine.cpp
+            src/Camera2D.cpp
             src/Errors.cpp
             src/GLSLProgram.cpp
             src/ImageLoader.cpp
@@ -34,8 +36,8 @@ set(SOURCES src/Camera2D.cpp
 )
 
 add_library(toaster SHARED ${SOURCES})
-target_include_directories(toaster PUBLIC include ${SDL2TTF_INCLUDE_DIRS})
-target_link_libraries(toaster PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} SDL2_ttf::SDL2_ttf)
+target_include_directories(toaster PUBLIC include ${SDL2_ttf_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS})
+target_link_libraries(toaster PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer)
 set_target_properties(toaster PROPERTIES LINKER_LANGUAGE CXX)
 
 # Static lib
