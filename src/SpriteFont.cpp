@@ -1,5 +1,5 @@
 #include "SpriteFont.h"
-
+#include "Errors.h"
 #include "SpriteBatch.h"
 
 #include <SDL2/SDL.h>
@@ -53,7 +53,7 @@ namespace Toaster
         _regLength = ce - cs + 1;
         int padding = size / 8;
 
-        std::cout << _regStart << " " << _regLength << std::endl;
+        // std::cout << _regStart << " " << _regLength << std::endl;
         // First neasure all the regions
         glm::ivec4 *glyphRects = new glm::ivec4[_regLength];
         int i = 0, advance;
@@ -130,6 +130,14 @@ namespace Toaster
 
                 SDL_Surface *glyphSurface = TTF_RenderGlyph_Blended(f, (char)(cs + gi), fg);
 
+                if (glyphSurface == nullptr)
+                    Toaster::fatalError("Failed TTF_RenderGlyph_Blended");
+
+                glyphSurface = SDL_ConvertSurfaceFormat(glyphSurface, SDL_PIXELFORMAT_BGRA32, 0);
+
+                if (glyphSurface == nullptr)
+                    Toaster::fatalError("Failed SDL_ConvertSurfaceFormat");
+
                 // Pre-multiplication occurs here
                 unsigned char *sp = (unsigned char *)glyphSurface->pixels;
                 int cp = glyphSurface->w * glyphSurface->h * 4;
@@ -175,7 +183,7 @@ namespace Toaster
         for (i = 0; i < _regLength; i++)
         {
             _glyphs[i].character = (char)(cs + i);
-            std::cout << _glyphs[i].character << std::endl;
+            // std::cout << _glyphs[i].character << std::endl;
             _glyphs[i].size = glm::vec2(glyphRects[i].z, glyphRects[i].w);
             _glyphs[i].uvRect = glm::vec4(
                 (float)glyphRects[i].x / (float)bestWidth,

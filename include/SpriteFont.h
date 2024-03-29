@@ -21,12 +21,12 @@ Modified By: Benjamin Arnold
 
 #pragma once
 
-#include <SDL2/SDL_ttf.h>
+#include "Vertex.h"
+
 #include <GLM/glm.hpp>
+#include <SDL2/SDL_ttf.h>
 #include <map>
 #include <vector>
-
-#include "Vertex.h"
 
 namespace Toaster
 {
