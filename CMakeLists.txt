@@ -14,9 +14,6 @@ find_package(SDL2_mixer REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
-include(CTest)
-enable_testing()
-
 set(SOURCES src/AudioEngine.cpp
             src/Camera2D.cpp
             src/Errors.cpp
@@ -24,6 +21,9 @@ set(SOURCES src/AudioEngine.cpp
             src/ImageLoader.cpp
             src/InputManager.cpp
             src/IOManager.cpp
+            src/Particle2D.cpp
+            src/ParticleBatch2D.cpp
+            src/ParticleEngine2D.cpp
             src/picoPNG.cpp
             src/ResourceManager.cpp
             src/Sprite.cpp
@@ -42,8 +42,8 @@ set_target_properties(toaster PROPERTIES LINKER_LANGUAGE CXX)
 
 # Static lib
 add_library(toaster-static STATIC ${SOURCES})
-target_include_directories(toaster-static PUBLIC include)
-target_link_libraries(toaster-static PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+target_include_directories(toaster-static PUBLIC include ${SDL2_ttf_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS})
+target_link_libraries(toaster-static PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer)
 set_target_properties(toaster-static PROPERTIES LINKER_LANGUAGE CXX)
 
 
@@ -51,6 +51,9 @@ install(TARGETS toaster
     LIBRARY DESTINATION bin
     ARCHIVE DESTINATION bin
 )
+
+include(CTest)
+enable_testing()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
