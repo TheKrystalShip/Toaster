@@ -15,13 +15,16 @@ namespace Toaster
         Particle2D();
         ~Particle2D();
 
-        void update(float deltaTime);
-
-    private:
-        glm::vec2 _position = glm::vec2(0.0f);
-        glm::vec2 _velocity = glm::vec2(0.0f);
-        ColorRGBA8 _color;
-        float _life = 0.0f;
-        float _width = 0.0f;
+        glm::vec2 position = glm::vec2(0.0f);
+        glm::vec2 velocity = glm::vec2(0.0f);
+        ColorRGBA8 color;
+        float life = 0.0f;
+        float width = 0.0f;
     };
+
+    inline void defaultUpdateParticleFunc(Particle2D &p, float delatTime)
+    {
+        p.position += p.velocity * delatTime;
+        p.color.a = (GLubyte)(p.life *255.0f);
+    }
 }

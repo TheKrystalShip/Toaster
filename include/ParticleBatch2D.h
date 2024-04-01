@@ -7,6 +7,8 @@
 
 #include <GLM/glm.hpp>
 
+#include <functional>
+
 namespace Toaster
 {
     class ParticleBatch2D
@@ -15,7 +17,7 @@ namespace Toaster
         ParticleBatch2D();
         ~ParticleBatch2D();
 
-        void init(int maxParticles, float decayRate, GLTexture texture);
+        void init(int maxParticles, float decayRate, GLTexture texture, std::function<void(Particle2D &, float)> updateParticleFunc = defaultUpdateParticleFunc);
 
         void update(float deltaTime);
 
@@ -25,6 +27,8 @@ namespace Toaster
 
     private:
         int findFreeParticle();
+
+        std::function<void(Particle2D &, float)> _updateParticleFunc;
 
         // How fast particle dissapear
         float _decayRate = 0.1f;
