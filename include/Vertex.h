@@ -6,10 +6,10 @@ namespace Toaster
 {
     struct Position
     {
-        float x;
-        float y;
+        float x = 0.0f;
+        float y = 0.0f;
 
-        Position() : x(0), y(0)
+        Position()
         {
         }
 
@@ -20,12 +20,12 @@ namespace Toaster
 
     struct ColorRGBA8
     {
-        GLubyte r;
-        GLubyte g;
-        GLubyte b;
-        GLubyte a;
+        GLubyte r = 255;
+        GLubyte g = 255;
+        GLubyte b = 255;
+        GLubyte a = 255;
 
-        ColorRGBA8() : r(0), g(0), b(0), a(0)
+        ColorRGBA8()
         {
         }
 
@@ -36,10 +36,10 @@ namespace Toaster
 
     struct UV
     {
-        float u;
-        float v;
+        float u = 0.0f;
+        float v = 0.0f;
 
-        UV() : u(0), v(0)
+        UV()
         {
         }
 
@@ -51,7 +51,7 @@ namespace Toaster
     struct Vertex
     {
         Position position;
-        ColorRGBA8 color = {0, 0, 0, 255};
+        ColorRGBA8 color;
         UV uv;
 
         void setColor(ColorRGBA8 color)
