@@ -4,6 +4,60 @@
 
 namespace Toaster
 {
+    Glyph::Glyph(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint Texture, float Depth, const ColorRGBA8 &color) : texture(Texture), depth(Depth)
+    {
+        topLeft.setColor(color);
+        topLeft.setPosition({destRect.x, destRect.y + destRect.w});
+        topLeft.setUV({uvRect.x, uvRect.y + uvRect.w});
+
+        bottomLeft.setColor(color);
+        bottomLeft.setPosition({destRect.x, destRect.y});
+        bottomLeft.setUV({uvRect.x, uvRect.y});
+
+        bottomRight.setColor(color);
+        bottomRight.setPosition({destRect.x + destRect.z, destRect.y});
+        bottomRight.setUV({uvRect.x + uvRect.z, uvRect.y});
+
+        topRight.setColor(color);
+        topRight.setPosition({destRect.x + destRect.z, destRect.y + destRect.w});
+        topRight.setUV({uvRect.x + uvRect.z, uvRect.y + uvRect.w});
+    }
+
+    Glyph::Glyph(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint Texture, float Depth, const ColorRGBA8 &color, float angleRadiants) : texture(Texture), depth(Depth)
+    {
+        glm::vec2 halfDimentions(destRect.z / 2.0f, destRect.w / 2.0f);
+
+        glm::vec2 tl = rotatePoint(glm::vec2(-halfDimentions.x, halfDimentions.y), angleRadiants) + halfDimentions;
+        glm::vec2 bl = rotatePoint(glm::vec2(-halfDimentions.x, -halfDimentions.y), angleRadiants) + halfDimentions;
+        glm::vec2 br = rotatePoint(glm::vec2(halfDimentions.x, -halfDimentions.y), angleRadiants) + halfDimentions;
+        glm::vec2 tr = rotatePoint(glm::vec2(halfDimentions.x, halfDimentions.y), angleRadiants) + halfDimentions;
+
+        topLeft.setColor(color);
+        topLeft.setPosition({destRect.x + tl.x, destRect.y + tl.y});
+        topLeft.setUV({uvRect.x, uvRect.y + uvRect.w});
+
+        bottomLeft.setColor(color);
+        bottomLeft.setPosition({destRect.x + bl.x, destRect.y + bl.y});
+        bottomLeft.setUV({uvRect.x, uvRect.y});
+
+        bottomRight.setColor(color);
+        bottomRight.setPosition({destRect.x + br.x, destRect.y + br.y});
+        bottomRight.setUV({uvRect.x + uvRect.z, uvRect.y});
+
+        topRight.setColor(color);
+        topRight.setPosition({destRect.x + tr.x, destRect.y + tr.y});
+        topRight.setUV({uvRect.x + uvRect.z, uvRect.y + uvRect.w});
+    }
+
+    glm::vec2 Glyph::rotatePoint(glm::vec2 pos, float angleRadiants)
+    {
+        glm::vec2 newVector;
+        newVector.x = pos.x * std::cos(angleRadiants) - pos.y * std::sin(angleRadiants);
+        newVector.y = pos.x * std::sin(angleRadiants) + pos.y * std::cos(angleRadiants);
+
+        return newVector;
+    }
+
     SpriteBatch::SpriteBatch() : _vbo(0), _vao(0)
     {
     }
@@ -39,6 +93,22 @@ namespace Toaster
     void SpriteBatch::draw(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint texture, float depth, const ColorRGBA8 &color)
     {
         _glyphs.emplace_back(destRect, uvRect, texture, depth, color);
+    }
+
+    void SpriteBatch::draw(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint texture, float depth, const ColorRGBA8 &color, float angleRadiants)
+    {
+        _glyphs.emplace_back(destRect, uvRect, texture, depth, color, angleRadiants);
+    }
+
+    void SpriteBatch::draw(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint texture, float depth, const ColorRGBA8 &color, const glm::vec2 &direction)
+    {
+        const glm::vec2 right(1.0f, 0.0f);
+        float angle = std::acos(glm::dot(right, direction));
+
+        if (direction.y < 0.0f)
+            angle = -angle;
+
+        _glyphs.emplace_back(destRect, uvRect, texture, depth, color, angle);
     }
 
     void SpriteBatch::renderBatch()

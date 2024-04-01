@@ -2,8 +2,8 @@
 
 #include "Vertex.h"
 
-#include <GLM/glm.hpp>
 #include <GL/glew.h>
+#include <GLM/glm.hpp>
 
 #include <vector>
 
@@ -20,25 +20,9 @@ namespace Toaster
     class Glyph
     {
     public:
-        Glyph() {};
-        Glyph(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint Texture, float Depth, const ColorRGBA8 &color) : texture(Texture), depth(Depth)
-        {
-            topLeft.setColor(color);
-            topLeft.setPosition({destRect.x, destRect.y + destRect.w});
-            topLeft.setUV({uvRect.x, uvRect.y + uvRect.w});
-
-            bottomLeft.setColor(color);
-            bottomLeft.setPosition({destRect.x, destRect.y});
-            bottomLeft.setUV({uvRect.x, uvRect.y});
-
-            bottomRight.setColor(color);
-            bottomRight.setPosition({destRect.x + destRect.z, destRect.y});
-            bottomRight.setUV({uvRect.x + uvRect.z, uvRect.y});
-
-            topRight.setColor(color);
-            topRight.setPosition({destRect.x + destRect.z, destRect.y + destRect.w});
-            topRight.setUV({uvRect.x + uvRect.z, uvRect.y + uvRect.w});
-        }
+        Glyph(){};
+        Glyph(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint Texture, float Depth, const ColorRGBA8 &color);
+        Glyph(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint Texture, float Depth, const ColorRGBA8 &color, float angleRadiants);
 
         GLuint texture;
         float depth;
@@ -47,6 +31,9 @@ namespace Toaster
         Vertex bottomLeft;
         Vertex topRight;
         Vertex bottomRight;
+
+    private:
+        glm::vec2 rotatePoint(glm::vec2 pos, float angleRadiants);
     };
 
     class RenderBatch
@@ -73,6 +60,8 @@ namespace Toaster
         void end();
 
         void draw(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint texture, float depth, const ColorRGBA8 &color);
+        void draw(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint texture, float depth, const ColorRGBA8 &color, float angleRadiants);
+        void draw(const glm::vec4 &destRect, const glm::vec4 &uvRect, GLuint texture, float depth, const ColorRGBA8 &color, const glm::vec2 &direction);
 
         void renderBatch();
 
