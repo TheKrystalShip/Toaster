@@ -37,8 +37,8 @@ namespace Toaster
             screenHeight,
             flags);
 
-        _screenWidth = screenWidth;
-        _screenHeight = screenHeight;
+        _width = screenWidth;
+        _height = screenHeight;
 
         if (_sdlWindow == nullptr)
             fatalError("SDL_CreateWindow returned nullptr");

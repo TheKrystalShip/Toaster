@@ -1,5 +1,6 @@
 #include "GLSLProgram.h"
 #include "Errors.h"
+#include "IOManager.h"
 
 #include <GL/glew.h>
 
@@ -16,6 +17,32 @@ namespace Toaster
 
     GLSLProgram::~GLSLProgram()
     {
+        dispose();
+    }
+
+    void GLSLProgram::compileShader(const char* source, GLuint shaderId)
+    {
+        glShaderSource(shaderId, 1, &source, nullptr);
+        glCompileShader(shaderId);
+
+        GLint success = 0;
+        glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+
+        // All ok
+        if (success != GL_FALSE)
+            return;
+
+        // Problem loading shader, get the error message
+        GLint maxLength = 0;
+        glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &maxLength);
+
+        std::vector<char> errorLog(maxLength);
+        glGetShaderInfoLog(shaderId, maxLength, &maxLength, &errorLog[0]);
+
+        glDeleteShader(shaderId);
+
+        std::printf("%s\n", &errorLog[0]);
+        fatalError("Shader " + std::string(source) + " failed to compile");
     }
 
     void GLSLProgram::compileShader(const std::string &shaderFilePath, GLuint shaderId)
@@ -33,29 +60,21 @@ namespace Toaster
 
         shaderFile.close();
 
-        const char *p_fileContent = fileContent.c_str();
-        glShaderSource(shaderId, 1, &p_fileContent, nullptr);
-        glCompileShader(shaderId);
-
-        GLint success = 0;
-        glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-
-        if (success == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &maxLength);
-
-            std::vector<char> errorLog(maxLength);
-            glGetShaderInfoLog(shaderId, maxLength, &maxLength, &errorLog[0]);
-
-            glDeleteShader(shaderId);
-
-            std::printf("%s\n", &errorLog[0]);
-            fatalError("Shader " + shaderFilePath + " failed to compile");
-        }
+        compileShader(fileContent.c_str(), shaderId);
     }
 
     void GLSLProgram::compileShaders(const std::string &vertexShaderFilePath, const std::string &fragmentShaderFilePath)
+    {
+        std::string vertSource;
+        std::string fragSource;
+
+        IOManager::readFileToBuffer(vertexShaderFilePath, vertSource);
+        IOManager::readFileToBuffer(fragmentShaderFilePath, fragSource);
+
+        compileShadersFromSource(vertSource.c_str(), fragSource.c_str());
+    }
+
+    void GLSLProgram::compileShadersFromSource(const char *vertexSource, const char *fragmentSource)
     {
         _programId = glCreateProgram();
         _vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
@@ -68,8 +87,8 @@ namespace Toaster
         if (_fragmentShaderId == 0)
             fatalError("glCreateShader(GL_FRAGMENT_SHADER) returned 0");
 
-        compileShader(vertexShaderFilePath, _vertexShaderId);
-        compileShader(fragmentShaderFilePath, _fragmentShaderId);
+        compileShader(vertexSource, _vertexShaderId);
+        compileShader(fragmentSource, _fragmentShaderId);
     }
 
     void GLSLProgram::linkShaders()
@@ -142,4 +161,9 @@ namespace Toaster
             glDisableVertexAttribArray(i);
     }
 
+    void GLSLProgram::dispose()
+    {
+        if (_programId)
+            glDeleteProgram(_programId);
+    }
 }

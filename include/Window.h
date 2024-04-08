@@ -21,19 +21,19 @@ namespace Toaster
         Window();
         ~Window();
 
-        int create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags = WindowFlags::DEFAULT);
+        int create(std::string windowName, int width, int height, unsigned int currentFlags = WindowFlags::DEFAULT);
 
         void swapBuffer();
 
-        int getScreenWidth() { return _screenWidth; }
-        int getScreenHeight() { return _screenHeight; }
+        int getWidth() { return _width; }
+        int getHeight() { return _height; }
 
         void setVsync(const bool val) { _vsync = val; }
         bool getVsync() const { return _vsync; }
 
     private:
-        int _screenWidth;
-        int _screenHeight;
+        int _width;
+        int _height;
         SDL_Window *_sdlWindow;
         bool _vsync;
     };
