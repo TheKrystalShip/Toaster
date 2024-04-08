@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(toaster VERSION 0.1.0 LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "-Wall -Wno-unused-but-set-variable")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -16,9 +16,11 @@ find_package(GLEW REQUIRED)
 
 set(SOURCES src/AudioEngine.cpp
             src/Camera2D.cpp
+            src/DebugRenderer.cpp
             src/Errors.cpp
             src/GLSLProgram.cpp
             src/ImageLoader.cpp
+            src/IMainGame.cpp
             src/InputManager.cpp
             src/IOManager.cpp
             src/Particle2D.cpp
@@ -26,6 +28,7 @@ set(SOURCES src/AudioEngine.cpp
             src/ParticleEngine2D.cpp
             src/picoPNG.cpp
             src/ResourceManager.cpp
+            src/ScreenList.cpp
             src/Sprite.cpp
             src/SpriteBatch.cpp
             src/SpriteFont.cpp
