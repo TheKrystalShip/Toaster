@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLTexture.h"
+#include "Texture2D.h"
 
 #include <string>
 
@@ -9,6 +9,6 @@ namespace Toaster
     class ImageLoader
     {
     public:
-        static GLTexture loadPNG(std::string filePath);
+        static Texture2D loadPNG(std::string filePath);
     };
 }

@@ -11,7 +11,7 @@ namespace Toaster
         delete[] _buffer;
     }
 
-    void ParticleBatch2D::init(int maxParticles, float decayRate, GLTexture texture,
+    void ParticleBatch2D::init(int maxParticles, float decayRate, Texture2D texture,
                                std::function<void(Particle2D &, float)> updateParticleFunc /* = defaultUpdateParticleFunc */)
     {
         _maxParticles = maxParticles;

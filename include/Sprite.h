@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLTexture.h"
+#include "Texture2D.h"
 
 #include <GL/glew.h>
 
@@ -23,6 +23,6 @@ namespace Toaster
         float _width;
         float _height;
         GLuint _vboId;
-        GLTexture _texture;
+        Texture2D _texture;
     };
 }

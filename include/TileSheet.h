@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLTexture.h"
+#include "Texture2D.h"
 
 #include <GLM/glm.hpp>
 
@@ -12,7 +12,7 @@ namespace Toaster
         TileSheet() {}
         virtual ~TileSheet() {}
 
-        void init(const GLTexture &texture, const glm::ivec2 &tileDims)
+        void init(const Texture2D &texture, const glm::ivec2 &tileDims)
         {
             this->texture = texture;
             this->dims = tileDims;
@@ -32,7 +32,7 @@ namespace Toaster
             return uvs;
         }
 
-        GLTexture texture;
+        Texture2D texture;
         glm::ivec2 dims;
 
     private:

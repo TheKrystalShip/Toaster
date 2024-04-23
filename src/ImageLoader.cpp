@@ -1,5 +1,5 @@
 #include "ImageLoader.h"
-#include "GLTexture.h"
+#include "Texture2D.h"
 #include "picoPNG.h"
 #include "IOManager.h"
 #include "Errors.h"
@@ -9,9 +9,9 @@
 
 namespace Toaster
 {
-    GLTexture ImageLoader::loadPNG(std::string filePath)
+    Texture2D ImageLoader::loadPNG(std::string filePath)
     {
-        GLTexture texture = {};
+        Texture2D texture = {};
 
         std::vector<unsigned char> in;
         std::vector<unsigned char> out;

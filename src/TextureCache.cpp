@@ -1,5 +1,5 @@
 #include "TextureCache.h"
-#include "GLTexture.h"
+#include "Texture2D.h"
 #include "ImageLoader.h"
 
 #include <string>
@@ -16,14 +16,14 @@ namespace Toaster
     {
     }
 
-    GLTexture TextureCache::getTexture(std::string texturePath)
+    Texture2D TextureCache::getTexture(std::string texturePath)
     {
         auto mit = _textureMap.find(texturePath);
 
         // Texture not found in cache, load it and save it
         if (mit == _textureMap.end())
         {
-            GLTexture newTexture = ImageLoader::loadPNG(texturePath);
+            Texture2D newTexture = ImageLoader::loadPNG(texturePath);
             _textureMap.insert({texturePath, newTexture});
 
             return newTexture;

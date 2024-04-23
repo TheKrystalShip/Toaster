@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TextureCache.h"
-#include "GLTexture.h"
+#include "Texture2D.h"
 
 #include <GL/glew.h>
 
@@ -12,7 +12,7 @@ namespace Toaster
     class ResourceManager
     {
     public:
-        static GLTexture getTexture(std::string texturePath);
+        static Texture2D getTexture(std::string texturePath);
 
     private:
         static TextureCache _textureCache;

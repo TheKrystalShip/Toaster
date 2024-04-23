@@ -4,7 +4,7 @@
 
 namespace Toaster
 {
-    struct GLTexture
+    struct Texture2D
     {
         GLuint id;
         int width;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLTexture.h"
+#include "Texture2D.h"
 
 #include <string>
 #include <map>
@@ -13,8 +13,8 @@ namespace Toaster
         TextureCache();
         ~TextureCache();
 
-        GLTexture getTexture(std::string texturePath);
+        Texture2D getTexture(std::string texturePath);
     private:
-        std::map<std::string, GLTexture> _textureMap;
+        std::map<std::string, Texture2D> _textureMap;
     };
 }

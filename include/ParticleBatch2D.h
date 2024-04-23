@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLTexture.h"
+#include "Texture2D.h"
 #include "Particle2D.h"
 #include "SpriteBatch.h"
 #include "Vertex.h"
@@ -17,7 +17,7 @@ namespace Toaster
         ParticleBatch2D();
         ~ParticleBatch2D();
 
-        void init(int maxParticles, float decayRate, GLTexture texture, std::function<void(Particle2D &, float)> updateParticleFunc = defaultUpdateParticleFunc);
+        void init(int maxParticles, float decayRate, Texture2D texture, std::function<void(Particle2D &, float)> updateParticleFunc = defaultUpdateParticleFunc);
 
         void update(float deltaTime);
 
@@ -37,6 +37,6 @@ namespace Toaster
         Particle2D *_buffer = nullptr;
         int _maxParticles = 0;
         int _lastFreeParticle = 0;
-        GLTexture _texture;
+        Texture2D _texture;
     };
 }

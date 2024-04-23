@@ -31,7 +31,7 @@ Modified By: Benjamin Arnold
 namespace Toaster
 {
 
-    struct GLTexture;
+    struct Texture2D;
     class SpriteBatch;
 
     struct CharGlyph
