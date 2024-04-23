@@ -39,13 +39,13 @@ set(SOURCES src/AudioEngine.cpp
 )
 
 add_library(toaster SHARED ${SOURCES})
-target_include_directories(toaster PUBLIC include ${SDL2_ttf_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS})
+target_include_directories(toaster PUBLIC include include/Toaster ${SDL2_ttf_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS})
 target_link_libraries(toaster PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer)
 set_target_properties(toaster PROPERTIES LINKER_LANGUAGE CXX)
 
 # Static lib
 add_library(toaster-static STATIC ${SOURCES})
-target_include_directories(toaster-static PUBLIC include ${SDL2_ttf_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS})
+target_include_directories(toaster-static PUBLIC include include/Toaster ${SDL2_ttf_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS})
 target_link_libraries(toaster-static PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer)
 set_target_properties(toaster-static PROPERTIES LINKER_LANGUAGE CXX)
 
